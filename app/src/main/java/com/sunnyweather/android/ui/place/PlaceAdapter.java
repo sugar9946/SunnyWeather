@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sunnyweather.android.ui.weather.WeatherActivity;
 import com.sunnyweather.android.R;
 import com.sunnyweather.android.logic.model.Place;
-import com.sunnyweather.android.ui.weather.WeatherActivity;
 
 import java.util.List;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> {
-    Fragment fragment;
+
+    PlaceFragment fragment;
     List<Place> placeList;
 
-    public PlaceAdapter(Fragment fragment, List<Place> placeList) {
+    public PlaceAdapter(PlaceFragment fragment, List<Place> placeList) {
         this.fragment = fragment;
         this.placeList = placeList;
     }
-
 
     @NonNull
     @Override
@@ -38,6 +38,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
             intent.putExtra("location_lng",place.getLocation().getLng());
             intent.putExtra("location_lat",place.getLocation().getLat());
             intent.putExtra("place_name",place.getName());
+            fragment.getViewModel().savePlace(place);
             fragment.startActivity(intent);
         });
         return viewHolder;
@@ -64,4 +65,3 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
         }
     }
 }
-

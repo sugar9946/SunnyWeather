@@ -13,10 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.sunnyweather.android.logic.model.getSky
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Weather
-import com.sunnyweather.android.logic.model.getSky
+
 import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.forecast.*
 import kotlinx.android.synthetic.main.life_index.*
@@ -45,16 +47,16 @@ class WeatherActivity : AppCompatActivity() {
         if (viewModel.placeName.isEmpty()) {
             viewModel.placeName = intent.getStringExtra("place_name") ?: ""
         }
-//        viewModel.weatherLiveData.observe(this, Observer { result ->
-//            val weather = result.getOrNull()
-//            if (weather != null) {
-//                showWeatherInfo(weather)
-//            } else {
-//                Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
-//                result.exceptionOrNull()?.printStackTrace()
-//            }
-//            swipeRefresh.isRefreshing = false
-//        })
+        viewModel.weatherLiveData.observe(this, Observer { result ->
+            val weather = result.getOrNull()
+            if (weather != null) {
+                showWeatherInfo(weather)
+            } else {
+                Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
+                result.exceptionOrNull()?.printStackTrace()
+            }
+            swipeRefresh.isRefreshing = false
+        })
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         refreshWeather()
         swipeRefresh.setOnRefreshListener {
@@ -96,23 +98,23 @@ class WeatherActivity : AppCompatActivity() {
         // 填充forecast.xml布局中的数据
         forecastLayout.removeAllViews()
         val days = daily.skycon.size
-//        for (i in 0 until days) {
-//            val skycon = daily.skycon[i]
-//            val temperature = daily.temperature[i]
-//            val view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false)
-//            val dateInfo = view.findViewById(R.id.dateInfo) as TextView
-//            val skyIcon = view.findViewById(R.id.skyIcon) as ImageView
-//            val skyInfo = view.findViewById(R.id.skyInfo) as TextView
-//            val temperatureInfo = view.findViewById(R.id.temperatureInfo) as TextView
-//            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//            dateInfo.text = simpleDateFormat.format(skycon.date)
-//            val sky = getSky(skycon.value)
-//            skyIcon.setImageResource(sky.icon)
-//            skyInfo.text = sky.info
-//            val tempText = "${temperature.min.toInt()} ~ ${temperature.max.toInt()} ℃"
-//            temperatureInfo.text = tempText
-//            forecastLayout.addView(view)
-//        }
+        for (i in 0 until days) {
+            val skycon = daily.skycon[i]
+            val temperature = daily.temperature[i]
+            val view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false)
+            val dateInfo = view.findViewById(R.id.dateInfo) as TextView
+            val skyIcon = view.findViewById(R.id.skyIcon) as ImageView
+            val skyInfo = view.findViewById(R.id.skyInfo) as TextView
+            val temperatureInfo = view.findViewById(R.id.temperatureInfo) as TextView
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            dateInfo.text = simpleDateFormat.format(skycon.date)
+            val sky = getSky(skycon.value)
+            skyIcon.setImageResource(sky.icon)
+            skyInfo.text = sky.info
+            val tempText = "${temperature.min.toInt()} ~ ${temperature.max.toInt()} ℃"
+            temperatureInfo.text = tempText
+            forecastLayout.addView(view)
+        }
         // 填充life_index.xml布局中的数据
         val lifeIndex = daily.lifeIndex
         coldRiskText.text = lifeIndex.coldRisk[0].desc

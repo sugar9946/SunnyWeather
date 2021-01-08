@@ -1,6 +1,8 @@
 package com.sunnyweather.android.logic.network
 
-
+import com.sunnyweather.android.logic.network.PlaceService
+import com.sunnyweather.android.logic.network.ServiceCreator
+import com.sunnyweather.android.logic.network.WeatherService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

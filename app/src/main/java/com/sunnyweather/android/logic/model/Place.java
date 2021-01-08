@@ -31,4 +31,3 @@ public class Place {
         this.address = address;
     }
 }
-

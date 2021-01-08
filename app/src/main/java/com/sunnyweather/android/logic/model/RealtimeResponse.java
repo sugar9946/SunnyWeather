@@ -2,6 +2,7 @@ package com.sunnyweather.android.logic.model;
 
 import com.google.gson.annotations.SerializedName;
 
+
 public class RealtimeResponse {
     public Result result;
     public String status;
@@ -26,4 +27,3 @@ public class RealtimeResponse {
         public AirQuality airQuality;
     }
 }
-

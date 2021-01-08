@@ -2,6 +2,7 @@ package com.sunnyweather.android.logic.model
 
 import com.sunnyweather.android.R
 
+
 class Sky (val info: String, val icon: Int, val bg: Int)
 
 private val sky = mapOf(
